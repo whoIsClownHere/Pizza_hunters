@@ -29,5 +29,5 @@ def get_trand(history: dict[datetime.date, int], start_date, finish_date, alpha=
 def prediction(company_title: str, history: dict[datetime.date, int], spent_budget: int, budget: int):
     start_date, finish_date = pd.to_datetime(min(history.keys())), pd.to_datetime(max(history.keys()))
     level = float(spent_budget / get_coeff_sum(start_date, finish_date) * get_5_days_sum(finish_date) + spent_budget)
-    trand = get_trand(history, start_date, finish_date)  # TODO: trand
-    return bool(level + trand > budget)
+    trand = get_trand(history, start_date, finish_date)
+    return bool(level + trand * 5 > budget)

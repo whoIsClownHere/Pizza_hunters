@@ -1,6 +1,6 @@
 FROM python:3.11-slim
-FROM ubuntu:14.04
 
+RUN apt-get -y install python3-pip
 RUN pip install Flask
 RUN pip install pandas
 

@@ -1,6 +1,5 @@
 FROM python:3.11-slim
-
-RUN mkdir code
+FROM ubuntu:14.04
 
 RUN pip install Flask
 RUN pip install pandas

@@ -37,9 +37,6 @@ def update_company(id):
     companies[id]['spent_budget'] += request.json['cashback']
     if not companies[id]['is_stopped']:
         companies[id]['is_stopped'] = prediction(companies[id]['name'], companies[id]['history'], companies[id]['spent_budget'], companies[id]['budget'])  # pyright: ignore
-    print('----')
-    print(companies)
-    print('----')
     return jsonify({})
 
 

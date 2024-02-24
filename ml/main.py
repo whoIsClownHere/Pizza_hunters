@@ -13,4 +13,6 @@ def get_5_days_sum(finish_date):
 
 def prediction(company_title: str, history: dict[datetime.date, int], spent_budget: int, budget: int):
     start_date, finish_date = pd.to_datetime(min(history.keys())), pd.to_datetime(max(history.keys()))
-    return bool(spent_budget / get_coeff_sum(start_date, finish_date) * get_5_days_sum(finish_date) + spent_budget > budget)
+    level = float(spent_budget / get_coeff_sum(start_date, finish_date) * get_5_days_sum(finish_date) + spent_budget)
+    trand = 0  # TODO: trand
+    return level + trand > budget

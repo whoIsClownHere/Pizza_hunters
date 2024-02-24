@@ -1,0 +1,10 @@
+version: '1.0'
+
+services:
+  web:
+    build: ./
+    command: python main.py
+    volumes:
+      - ./
+    ports:
+      - 8080:8080

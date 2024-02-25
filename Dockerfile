@@ -7,5 +7,6 @@ ADD . /code/
 
 RUN pip install Flask
 RUN pip install pandas
+RUN pip install flask-restful
 
 CMD python main.py

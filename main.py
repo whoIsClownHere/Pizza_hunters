@@ -1,4 +1,5 @@
 from flask import Flask, request, jsonify
+from flask_restful import reqparse
 from ml.main import prediction
 import datetime
 
@@ -11,11 +12,16 @@ autoincrement = 0
 @app.route('/api/partners', methods=['POST'])  # pyright: ignore
 def add_company():
     global companies, autoincrement
+    parser = reqparse.RequestParser()
+    parser.add_argument('name', type=str)
+    parser.add_argument('budget', type=float)
+    args = parser.parse_args()
+
     autoincrement += 1
     companies[autoincrement] = {
         "id": autoincrement,
-        "name": request.json['name'],
-        "budget": request.json['budget'],
+        "name": args['name'],
+        "budget": args['budget'],
         "spent_budget": 0,
         "history": dict(),
         "is_stopped": False
@@ -32,9 +38,14 @@ def get_company(id):
 @app.route('/api/partners/<int:id>/cashback', methods=['PUT'])  # pyright: ignore
 def update_company(id):
     global complanies
-    date = datetime.datetime.strptime(request.json['date'], '%Y-%m-%d %H:%M:%S').date()
-    companies[id]['history'][date] = request.json['cashback']
-    companies[id]['spent_budget'] += request.json['cashback']
+    parser = reqparse.RequestParser()
+    parser.add_argument('date', type=str)
+    parser.add_argument('cashback', type=float)
+    args = parser.parse_args()
+
+    date = datetime.datetime.strptime(args['date'], '%Y-%m-%d %H:%M:%S').date()
+    companies[id]['history'][date] = args['cashback']
+    companies[id]['spent_budget'] += args['cashback']
     if not companies[id]['is_stopped']:
         companies[id]['is_stopped'] = prediction(companies[id]['name'], companies[id]['history'], companies[id]['spent_budget'], companies[id]['budget'])  # pyright: ignore
     return jsonify({})
